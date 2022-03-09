@@ -1,32 +1,34 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, log } from "@graphprotocol/graph-ts"
 import {
   Polling,
   PollCreated,
   PollWithdrawn,
   Voted
 } from "../generated/Polling/Polling"
-import { ExampleEntity } from "../generated/schema"
+import { Poll } from "../generated/schema"
 
 export function handlePollCreated(event: PollCreated): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+  let entity = Poll.load(event.params.pollId.toString())
 
   // Entities only exist after they have been saved to the store;
   // `null` checks allow to create entities on demand
   if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
+    entity = new Poll(event.params.pollId.toString())
 
     // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
+    // entity.count = BigInt.fromI32(0)
   }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
 
   // Entity fields can be set based on event parameters
   entity.creator = event.params.creator
   entity.blockCreated = event.params.blockCreated
+  entity.pollId = event.params.pollId.toI32()
+  entity.multiHash = event.params.multiHash.toString()
+  entity.url = event.params.url.toString()
+  entity.startDate = event.params.startDate.toString();
+  entity.endDate = event.params.endDate.toString();  
 
   // Entities can be written to the store with `.save()`
   entity.save()
@@ -51,4 +53,7 @@ export function handlePollCreated(event: PollCreated): void {
 
 export function handlePollWithdrawn(event: PollWithdrawn): void {}
 
-export function handleVoted(event: Voted): void {}
+export function handleVoted(event: Voted): void {
+  // , event.parameters.map(e => e.name + ' ' + e.value.toString()).join(', ')
+  log.info('ey {}', [event.address.toString()])
+}

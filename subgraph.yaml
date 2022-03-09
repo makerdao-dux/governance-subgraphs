@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
@@ -8,6 +8,7 @@ dataSources:
     source:
       address: "0xdbE5d00b2D8C13a77Fb03Ee50C87317dbC1B15fb"
       abi: Polling
+      startBlock: 6495569
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

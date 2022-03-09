@@ -1,6 +1,17 @@
-type ExampleEntity @entity {
+type Poll @entity {
   id: ID!
-  count: BigInt!
+  pollId: Int!
+  startDate: String!
+  endDate: String!
   creator: Bytes! # address
   blockCreated: BigInt! # uint256
+  url: String!
+  multiHash: String!
+}
+
+type Vote @entity {
+  id: ID!
+  address: Bytes! # address
+  blockCreated: BigInt! # uint256
+  
 }

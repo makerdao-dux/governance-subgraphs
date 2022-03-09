@@ -1,0 +1,29 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Polling
+    network: goerli
+    source:
+      address: "0xdbE5d00b2D8C13a77Fb03Ee50C87317dbC1B15fb"
+      abi: Polling
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - PollCreated
+        - PollWithdrawn
+        - Voted
+      abis:
+        - name: Polling
+          file: ./abis/Polling.json
+      eventHandlers:
+        - event: PollCreated(indexed address,uint256,indexed uint256,uint256,uint256,string,string)
+          handler: handlePollCreated
+        - event: PollWithdrawn(indexed address,uint256,uint256)
+          handler: handlePollWithdrawn
+        - event: Voted(indexed address,indexed uint256,indexed uint256)
+          handler: handleVoted
+      file: ./src/mapping.ts

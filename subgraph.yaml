@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0xdbE5d00b2D8C13a77Fb03Ee50C87317dbC1B15fb"
       abi: Polling
-      startBlock: 6495569
+      startBlock: 6385583
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -27,4 +27,5 @@ dataSources:
           handler: handlePollWithdrawn
         - event: Voted(indexed address,indexed uint256,indexed uint256)
           handler: handleVoted
+  
       file: ./src/mapping.ts

@@ -13,5 +13,14 @@ type Vote @entity {
   id: ID!
   address: Bytes! # address
   blockCreated: BigInt! # uint256
-  
+  pollId: Int!
+  optionId: String!
+}
+
+type Account @entity {
+	id:   ID!
+
+  isDelegate: Boolean
+  delegateAddress: Bytes! # address
+
 }

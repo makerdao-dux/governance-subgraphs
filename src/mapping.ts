@@ -5,7 +5,7 @@ import {
   PollWithdrawn,
   Voted
 } from "../generated/Polling/Polling"
-import { Poll } from "../generated/schema"
+import { Poll, Vote, Account } from "../generated/schema"
 
 export function handlePollCreated(event: PollCreated): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -54,6 +54,18 @@ export function handlePollCreated(event: PollCreated): void {
 export function handlePollWithdrawn(event: PollWithdrawn): void {}
 
 export function handleVoted(event: Voted): void {
+  const voteEntity = new Vote(event.transaction.hash.toString())
+
+  voteEntity.blockCreated = event.block.number;
+  voteEntity.address = event.transaction.from;
+
+  const pollId = event.params.pollId.toI32()
+  const votedOption = event.params.optionId.toString();
+
+  voteEntity.pollId = pollId;
+  voteEntity.optionId = votedOption;
   // , event.parameters.map(e => e.name + ' ' + e.value.toString()).join(', ')
   log.info('ey {}', [event.address.toString()])
+
+  voteEntity.save()
 }
